@@ -27,7 +27,7 @@ def generate_data():
                         t = [row[cell].value, row[cell + 1].value]
                         data.append(t)
         elif datetime.date.today().weekday() == 3:
-            data.append(["8:10 - 18:40", "Военная подготовка"])
+            data.append(["8:10 - 15:00", "Военная подготовка"])
         elif datetime.date.today().weekday() == 4:
             for row in sheet.iter_rows(min_row=6, max_row=9, min_col=10, max_col=11):
                 for cell in range(0, 2, len(row)):
@@ -60,7 +60,7 @@ def generate_data():
                         t = [row[cell].value, row[cell + 2].value]
                         data.append(t)
         elif datetime.date.today().weekday() == 3:
-            data.append(["8:10 - 18:40", "Военная подготовка"])
+            data.append(["8:10 - 15:00", "Военная подготовка"])
         elif datetime.date.today().weekday() == 4:
             for row in sheet.iter_rows(min_row=6, max_row=9, min_col=10, max_col=12):
                 for cell in range(0, 3, len(row)):

@@ -46,6 +46,7 @@ def set_lesson_notification(update, context):
                                         day=datetime.now().day,
                                         second=0,
                                         microsecond=0)
+        start_time = start_time - timedelta(hours=3)
         falc_start_time = start_time - timedelta(minutes=10)
         peremena_time = start_time + timedelta(minutes=45)
         end_time = end_time.replace(year=datetime.now().year,
@@ -53,6 +54,7 @@ def set_lesson_notification(update, context):
                                     day=datetime.now().day,
                                     second=0,
                                     microsecond=0)
+        end_time = end_time - timedelta(hours=3)
         print(start_time, peremena_time, end_time)
 
         # Вычисляем разницу во времени между текущим временем и началом пары
