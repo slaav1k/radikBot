@@ -70,7 +70,7 @@ def set_lesson_notification_command(context: CallbackContext):
 
         # Парсим время начала и окончания пары
         start_time, end_time = map(lambda x: datetime.strptime(x, '%H:%M'),
-                                   lesson_time.split(' '))
+                                   lesson_time.split())
         start_time = start_time.replace(year=datetime.now().year,
                                         month=datetime.now().month,
                                         day=datetime.now().day,
