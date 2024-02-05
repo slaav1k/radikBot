@@ -5,7 +5,7 @@ import datetime
 def generate_data():
     wb = openpyxl.load_workbook(
         'file.xlsx'
-    )  # Замените 'имя_файла.xlsx' на фактический путь к вашему файлу
+    )
     sheet = wb.active
     data = []
 
@@ -23,7 +23,7 @@ def generate_data():
                         t = [row[cell].value, row[cell + 1].value]
                         data.append(t)
         elif datetime.date.today().weekday() == 2:
-            for row in sheet.iter_rows(min_row=10, max_row=14, min_col=5, max_col=6):
+            for row in sheet.iter_rows(min_row=10, max_row=13, min_col=5, max_col=6):
                 for cell in range(0, 2, len(row)):
                     if row[cell + 1].value:
                         t = [row[cell].value, row[cell + 1].value]
@@ -38,7 +38,7 @@ def generate_data():
                         data.append(t)
         elif datetime.date.today().weekday() == 5:
             for row in sheet.iter_rows(min_row=10,
-                                       max_row=14,
+                                       max_row=13,
                                        min_col=10,
                                        max_col=11):
                 for cell in range(0, 2, len(row)):
@@ -59,7 +59,7 @@ def generate_data():
                         t = [row[cell].value, row[cell + 2].value]
                         data.append(t)
         elif datetime.date.today().weekday() == 2:
-            for row in sheet.iter_rows(min_row=10, max_row=14, min_col=5, max_col=7):
+            for row in sheet.iter_rows(min_row=10, max_row=13, min_col=5, max_col=7):
                 for cell in range(0, 3, len(row)):
                     if row[cell + 2].value:
                         t = [row[cell].value, row[cell + 2].value]
@@ -70,6 +70,15 @@ def generate_data():
             for row in sheet.iter_rows(min_row=6, max_row=9, min_col=10, max_col=12):
                 for cell in range(0, 3, len(row)):
                     if row[cell + 2].value:
+                        t = [row[cell].value, row[cell + 2].value]
+                        data.append(t)
+        elif datetime.date.today().weekday() == 5:
+            for row in sheet.iter_rows(min_row=10,
+                                       max_row=13,
+                                       min_col=10,
+                                       max_col=12):
+                for cell in range(0, 3, len(row)):
+                    if row[cell + 1].value:
                         t = [row[cell].value, row[cell + 2].value]
                         data.append(t)
 
