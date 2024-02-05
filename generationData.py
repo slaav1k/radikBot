@@ -91,4 +91,4 @@ def is_even_week():
     iso_calendar = today.isocalendar()
     week_number = iso_calendar[1]
 
-    return week_number % 2 != 0
+    return week_number % 2 == 0
