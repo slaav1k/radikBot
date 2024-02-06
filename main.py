@@ -133,6 +133,12 @@ def set_lesson_notification(update, context):
                                     first=1,
                                     context=chat_id)
 
+def stop_lesson_notification(update, context):
+    chat_id = update.message.chat_id
+    context.job_queue.stop()
+    context.bot.send_message(chat_id, "Уведомления остановлены", reply_markup=markup)
+
+
 
 def main():
     updater = Updater(token=tokenBot.TOKEN_BOT, use_context=True)
@@ -142,6 +148,8 @@ def main():
     dp.add_handler(CommandHandler('start', set_lesson_notification))
     dp.add_handler(CommandHandler('check', check_status_bot))
     dp.add_handler(CommandHandler('lessons', lessons))
+    dp.add_handler(CommandHandler('stop', stop_lesson_notification))
+
 
     tz = timezone('Europe/Moscow')
     scheduler = BackgroundScheduler()
