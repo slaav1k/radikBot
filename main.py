@@ -4,7 +4,7 @@
 # subprocess.run(["pip", "install", "pytz"])
 # subprocess.run(["pip", "install", "apscheduler"])
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import timezone
@@ -76,7 +76,7 @@ def set_lesson_notification_command(context: CallbackContext):
                                         day=datetime.now().day,
                                         second=0,
                                         microsecond=0)
-        #start_time = start_time - timedelta(hours=3)
+        # start_time = start_time - timedelta(hours=3)
         falc_start_time = start_time - timedelta(minutes=10)
         peremena_time = start_time + timedelta(minutes=45)
         end_time = end_time.replace(year=datetime.now().year,
@@ -84,7 +84,7 @@ def set_lesson_notification_command(context: CallbackContext):
                                     day=datetime.now().day,
                                     second=0,
                                     microsecond=0)
-        #end_time = end_time - timedelta(hours=3)
+        # end_time = end_time - timedelta(hours=3)
         print(start_time, peremena_time, end_time)
 
         # Вычисляем разницу во времени между текущим временем и началом пары
@@ -127,17 +127,32 @@ def set_lesson_notification_command(context: CallbackContext):
 # Функция для установки уведомлений
 def set_lesson_notification(update, context):
     chat_id = update.message.chat_id
+    print(datetime.now())
 
-    context.job_queue.run_repeating(set_lesson_notification_command,
-                                    interval=60 * 60 * 24,
-                                    first=1,
-                                    context=chat_id)
+    filtered_jobs = [job for job in context.job_queue.jobs() if str(chat_id) in job.name]
+    for job in filtered_jobs:
+        job.schedule_removal()
 
-def stop_lesson_notification(update, context):
-    chat_id = update.message.chat_id
-    context.job_queue.stop()
-    context.bot.send_message(chat_id, "Уведомления остановлены", reply_markup=markup)
+    # context.bot.send_message(chat_id, f"{datetime.now()}")
+    context.job_queue.run_daily(set_lesson_notification_command,
+                                time=time(hour=4, minute=00),
+                                context=chat_id, name=f"set_lesson_{chat_id}")
 
+    context.job_queue.run_once(set_lesson_notification_command,
+                               1,
+                               context=chat_id, name=f"set_lesson_{chat_id}")
+
+    # context.job_queue.run_repeating(set_lesson_notification_command,
+    #                                 interval=60 * 60 * 24,
+    #                                 first=1,
+    #                                 context=chat_id)
+
+    # context.job_queue.run_repeating(set_lesson_notification_command,
+    #                                 interval=5,
+    #                                 first=1,
+    #                                 context=chat_id)
+    print([job for job in context.job_queue.jobs() if str(chat_id) in job.name])
+    # filtered_jobs = [job for job in context.job_queue.jobs() if str(chat_id) in job.name]
 
 
 def main():
@@ -148,8 +163,6 @@ def main():
     dp.add_handler(CommandHandler('start', set_lesson_notification))
     dp.add_handler(CommandHandler('check', check_status_bot))
     dp.add_handler(CommandHandler('lessons', lessons))
-    dp.add_handler(CommandHandler('stop', stop_lesson_notification))
-
 
     tz = timezone('Europe/Moscow')
     scheduler = BackgroundScheduler()
