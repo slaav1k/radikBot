@@ -78,7 +78,7 @@ def generate_data():
                                        min_col=10,
                                        max_col=12):
                 for cell in range(0, 3, len(row)):
-                    if row[cell + 1].value:
+                    if row[cell + 2].value:
                         t = [row[cell].value, row[cell + 2].value]
                         data.append(t)
 
